@@ -1517,19 +1517,19 @@ function updateCountdowns() {
     });
     
     chnEl.textContent = '';
-    chsEl.textContent = activeChallenges.length === 1 ? 'Reto en curso ¡Queremos ver tu participación!' : `${activeChallenges.length} retos en curso`;
+    chsEl.textContent = activeChallenges.length === 1 ? 'Reto en curso' : `${activeChallenges.length} Retos en curso`;
     chcEl.innerHTML = countdownsHTML;
   } else if (nextChallenge) {
     // Show next challenge countdown
     const nextChDay = formatDateLocal(nextChallenge.date);
     
     chnEl.textContent = nextChallenge.title;
-    chsEl.textContent = `Próximo: ${nextChDay}`;
+    chsEl.textContent = 'Tiempo para el siguiente reto';
     const html = buildCountdownHTML(nextChallengeDiff);
     chcEl.innerHTML = html || '<div style="font-size:12px;color:var(--amarillo);">¡Viene pronto!</div>';
   } else {
     chnEl.textContent = '';
-    chsEl.textContent = 'No hay retos';
+    chsEl.textContent = 'Sin Retos';
     chcEl.innerHTML = '';
   }
   
