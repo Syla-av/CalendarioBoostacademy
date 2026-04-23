@@ -1418,6 +1418,7 @@ function buildCountdownHTML(diff) {
 
 function updateCountdowns() {
   const nowUser = new Date();
+  const nowMexico = new Date(new Date().toLocaleString("en-US", {timeZone: "America/Mexico_City"}));
 
   // Update class countdown - FIXED LOGIC
   const ccEl = document.getElementById('classCountdown');
@@ -1601,7 +1602,7 @@ function updateClassCountdownsInModal() {
     
     const lockIcon = link.querySelector('[data-lucide]');
     
-    if (nowUser >= fiveMinBefore && nowUser <= endDate) {
+    if (nowMexico >= fiveMinBefore && nowMexico <= endDate) {
       link.style.opacity = '1';
       link.style.pointerEvents = 'auto';
       link.style.cursor = 'pointer';
