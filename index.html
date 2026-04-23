@@ -1419,6 +1419,11 @@ function buildCountdownHTML(diff) {
 function updateCountdowns() {
   const nowUser = new Date();
   const nowMexico = new Date(new Date().toLocaleString("en-US", {timeZone: "America/Mexico_City"}));
+  
+  // Debug logging
+  console.log('Current user time:', nowUser.toLocaleString());
+  console.log('Current Mexico time:', nowMexico.toLocaleString());
+  console.log('Current Mexico time ISO:', nowMexico.toISOString());
 
   // Update class countdown - FIXED LOGIC
   const ccEl = document.getElementById('classCountdown');
@@ -1600,6 +1605,14 @@ function updateClassCountdownsInModal() {
     const endDate = parseLocalDateTime(classDateStr, endTimeStr);
     const fiveMinBefore = new Date(classDate.getTime() - 5 * 60000);
     
+    // Debug logging for Zoom link
+    console.log('Zoom Link Debug:');
+    console.log('- Class date/time:', classDate.toLocaleString());
+    console.log('- End time:', endDate.toLocaleString());
+    console.log('- 5 min before:', fiveMinBefore.toLocaleString());
+    console.log('- Now Mexico:', nowMexico.toLocaleString());
+    console.log('- Should be active?', nowMexico >= fiveMinBefore && nowMexico <= endDate);
+    
     const lockIcon = link.querySelector('[data-lucide]');
     
     if (nowMexico >= fiveMinBefore && nowMexico <= endDate) {
@@ -1670,9 +1683,11 @@ function applyConfig(config) {
   document.getElementById('monthLabel').style.fontSize = `${base * 1.375}px`;
 }
 
-window.elementSdk.init({
-  defaultConfig,
-  onConfigChange: async (config) => { applyConfig(config); },
+// Only initialize Element SDK if it's available
+if (window.elementSdk) {
+  window.elementSdk.init({
+    defaultConfig,
+    onConfigChange: async (config) => { applyConfig(config); },
   mapToCapabilities: (config) => ({
     recolorables: [
       { get: () => config.background_color || defaultConfig.background_color, set: (v) => { config.background_color = v; window.elementSdk.setConfig({ background_color: v }); } },
@@ -1696,6 +1711,7 @@ window.elementSdk.init({
     ['dashboard_title', config.dashboard_title || defaultConfig.dashboard_title]
   ])
 });
+}
 
 // ===== INIT =====
 renderCalendar();
