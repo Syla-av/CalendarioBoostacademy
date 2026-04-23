@@ -1378,12 +1378,8 @@ function parseLocalDateTime(dateStr, timeStr) {
   const [y, m, d] = dateStr.split('-').map(Number);
   const [h, min] = timeStr.split(':').map(Number);
   
-  // Create date in Mexico timezone with DST awareness
-  // Mexico uses UTC-6 in winter, UTC-5 in DST (April-October)
-  const isDST = (m === 3 && d >= 12) || (m > 3 && m < 11) || (m === 11 && d <= 5);
-  const timezoneOffset = isDST ? '-05:00' : '-06:00';
-  
-  const mexicoISO = `${dateStr}T${String(h).padStart(2, '0')}:${String(min).padStart(2, '0')}:00${timezoneOffset}`;
+  // Use Mexico standard time -06:00, let browser handle DST automatically
+  const mexicoISO = `${dateStr}T${String(h).padStart(2, '0')}:${String(min).padStart(2, '0')}:00-06:00`;
   const mexicoDate = new Date(mexicoISO);
   
   return mexicoDate;
@@ -1394,11 +1390,8 @@ function getClassTimeInUserTimezone(dateStr, timeStr) {
   const [y, m, d] = dateStr.split('-').map(Number);
   const [h, min] = timeStr.split(':').map(Number);
   
-  // Create date in Mexico timezone with DST awareness
-  const isDST = (m === 3 && d >= 12) || (m > 3 && m < 11) || (m === 11 && d <= 5);
-  const timezoneOffset = isDST ? '-05:00' : '-06:00';
-  
-  const mexicoISO = `${dateStr}T${String(h).padStart(2, '0')}:${String(min).padStart(2, '0')}:00${timezoneOffset}`;
+  // Use Mexico standard time -06:00, let browser handle DST automatically
+  const mexicoISO = `${dateStr}T${String(h).padStart(2, '0')}:${String(min).padStart(2, '0')}:00-06:00`;
   const mexicoDate = new Date(mexicoISO);
   
   // Format in user's local timezone
